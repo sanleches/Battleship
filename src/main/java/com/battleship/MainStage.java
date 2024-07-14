@@ -20,6 +20,7 @@ public class MainStage {
     private final Scene scene;
     private String username = "def";
     private final String imagePath = "file:src/main/java/com/battleship/images/";
+    private Label usernameLabel = new Label("Username: " + username);
 
     public MainStage() {
         BorderPane root = new BorderPane();
@@ -62,7 +63,7 @@ public class MainStage {
         addImageToGrid(battlefieldGrid, imagePath + "miss.png", 1, 3);
 
         // Username Box
-        Label usernameLabel = new Label("Username: " + username);
+        
         usernameLabel.setStyle("-fx-background-color: #3B6491; -fx-text-fill: white; -fx-font-size: 16px; -fx-padding: 20px;"); // Increase padding and font size
         usernameLabel.setAlignment(Pos.CENTER);
 
@@ -167,7 +168,7 @@ public class MainStage {
 
     public void setUsername(String outsideUsername) {
         this.username = outsideUsername;
-        // Update username label if necessary
+        usernameLabel.setText("Username: " + username);
     }
 
     private String getUsername() {

@@ -11,27 +11,19 @@ public class InitialSetupController {
     private VBox initialSetupRoot;
 
     @FXML
+    private TextField usernameField;
+
+    @FXML
     private Button onlineButton;
 
     @FXML
     private Button offlineButton;
 
     @FXML
-    private TextField usernameField;
-
-    @FXML
     private void initialize() {
-        // Initialize and style the username text field
-        usernameField = new TextField();
-        usernameField.setPromptText("Enter your username");
-        usernameField.setStyle("-fx-background-color: #3B6491; -fx-text-fill: white; -fx-font-size: 16px; -fx-padding: 10px;");
-
         // Style the buttons
         styleButton(onlineButton, "#3B6491");
         styleButton(offlineButton, "#3B6491");
-
-        // Add the username field to the VBox
-        initialSetupRoot.getChildren().add(0, usernameField); // Add at the top of the VBox
 
         // Button handlers for initial setup
         onlineButton.setOnAction(event -> {
@@ -46,9 +38,9 @@ public class InitialSetupController {
     }
 
     private void styleButton(Button button, String color) {
-        button.setStyle("-fx-background-color: " + color + "; -fx-text-fill: white; -fx-font-size: 16px; -fx-padding: 10px;");
-        button.setOnMouseEntered(event -> button.setStyle("-fx-background-color: " + lightenColor(color, 0.2) + "; -fx-text-fill: white; -fx-font-size: 16px; -fx-padding: 10px;"));
-        button.setOnMouseExited(event -> button.setStyle("-fx-background-color: " + color + "; -fx-text-fill: white; -fx-font-size: 16px; -fx-padding: 10px;"));
+        button.setStyle("-fx-background-color: " + color + "; -fx-text-fill: white; -fx-font-size: 20px; -fx-padding: 20px;");
+        button.setOnMouseEntered(event -> button.setStyle("-fx-background-color: " + lightenColor(color, 0.2) + "; -fx-text-fill: white; -fx-font-size: 20px; -fx-padding: 20px;"));
+        button.setOnMouseExited(event -> button.setStyle("-fx-background-color: " + color + "; -fx-text-fill: white; -fx-font-size: 20px; -fx-padding: 20px;"));
     }
 
     private String lightenColor(String color, double factor) {
@@ -61,5 +53,4 @@ public class InitialSetupController {
                 (int) (green * 255),
                 (int) (blue * 255));
     }
-    
 }
