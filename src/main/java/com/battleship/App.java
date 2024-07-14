@@ -12,6 +12,8 @@ import javafx.stage.Stage;
 
 public class App extends Application {
 
+    
+
     public static void main(String[] args) {
         launch();
     }
@@ -26,12 +28,14 @@ public class App extends Application {
 
         // Initialize initial setup UI
         Parent initialSetupRoot = FXMLLoader.load(getClass().getResource("InitialSetup.fxml"));
+
         initialSetupScene = new Scene(initialSetupRoot, 600, 600);
 
         // Show initial setup scene
         primaryStage.setScene(initialSetupScene);
         primaryStage.setTitle("Initial Setup");
         primaryStage.show();
+
     }
 
     public static void switchToMainScene(String username, int mode) {
@@ -56,5 +60,11 @@ public class App extends Application {
     primaryStage.setY(centerY - primaryStage.getHeight() / 2);
 
     primaryStage.show();
-}
+    }
+    public static void switchToInitialScene(Parent initialSetupRoot) throws IOException{
+        initialSetupScene = new Scene(initialSetupRoot, 600, 600);
+        primaryStage.setScene(initialSetupScene);
+        primaryStage.setTitle("Initial Setup");
+        primaryStage.show();
+    }
 }

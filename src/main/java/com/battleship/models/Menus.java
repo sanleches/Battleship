@@ -12,36 +12,40 @@ public class Menus {
     public MenuBar createMenuBar() {
         MenuBar menuBar = new MenuBar();
 
-        // File menu - new, save, print, and exit
-        Menu fileMenu = new Menu("File");
+        //  menu - new, save, print, and exit
+        Menu settingsMenu = new Menu(" Settings ");
         MenuItem newMenuItem = new MenuItem("New");
         MenuItem saveMenuItem = new MenuItem("Save");
-        MenuItem printMenuItem = new MenuItem("Print");
+        MenuItem SetupScreenMenuItem = new MenuItem("Return to Setup Screen");
         MenuItem exitMenuItem = new MenuItem("Exit");
 
-        fileMenu.getItems().addAll(newMenuItem, saveMenuItem, printMenuItem, new SeparatorMenuItem(), exitMenuItem);
+        settingsMenu.getItems().addAll(newMenuItem, saveMenuItem, SetupScreenMenuItem, new SeparatorMenuItem(), exitMenuItem);
         
         exitMenuItem.setOnAction(actionEvent -> Platform.exit());
+        // SetupScreenMenuItem.setOnAction(actionEvent -> {
+        //     try {
+        //         App.switchToInitialScene(App.initialSetupRoot);
+        //     } catch (IOException e) {
+
+        //     }
+        // });
 
         // Language menu - check menu items
         Menu languageMenu = new Menu("Language");
-        CheckMenuItem javaMenuItem = new CheckMenuItem("Java");
-        CheckMenuItem pythonMenuItem = new CheckMenuItem("Python");
-        CheckMenuItem htmlMenuItem = new CheckMenuItem("HTML");
-        CheckMenuItem FXMenuItem = new CheckMenuItem("JavaFX");
-        FXMenuItem.setSelected(true);
-        languageMenu.getItems().addAll(javaMenuItem, pythonMenuItem, htmlMenuItem, new SeparatorMenuItem(), FXMenuItem);
+        CheckMenuItem langEnMenuItem = new CheckMenuItem("English");
+        CheckMenuItem LangEspMenuItem = new CheckMenuItem("Espanol");
+        languageMenu.getItems().addAll(langEnMenuItem, LangEspMenuItem);
 
-        // Tutorial menu - nested menu items
-        Menu tutorialMenu = new Menu("Tutorial");
-        tutorialMenu.getItems().addAll(
-            new MenuItem("Buttons"),
-            new MenuItem("Menus"),
-            new MenuItem("Images"));
+        // // Tutorial menu - nested menu items
+        // Menu tutorialMenu = new Menu("Tutorial");
+        // tutorialMenu.getItems().addAll(
+        //     new MenuItem("Buttons"),
+        //     new MenuItem("Menus"),
+        //     new MenuItem("Images"));
 
-        languageMenu.getItems().add(tutorialMenu);
+        // languageMenu.getItems().add(tutorialMenu);
 
-        menuBar.getMenus().addAll(fileMenu, languageMenu);
+        menuBar.getMenus().addAll(settingsMenu, languageMenu);
         return menuBar;
     }
 }
