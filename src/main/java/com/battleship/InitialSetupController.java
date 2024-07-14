@@ -3,9 +3,13 @@ package com.battleship;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;
 
 public class InitialSetupController {
+
+    private final String imagePath = "file:src/main/java/com/battleship/images/";
 
     @FXML
     private VBox initialSetupRoot;
@@ -21,6 +25,22 @@ public class InitialSetupController {
 
     @FXML
     private void initialize() {
+
+        // Add the logo image on top
+        Image logoImage = new Image(imagePath + "logo.png");
+        ImageView titleBanner = new ImageView(logoImage);
+        titleBanner.setFitWidth(350);  // Adjust width as needed
+        //titleBanner.setFitHeight(200);
+        titleBanner.setPreserveRatio(true);
+        initialSetupRoot.getChildren().add(0, titleBanner);  // Add at the top of the VBox
+        initialSetupRoot.setSpacing(40);  // Adjust spacing as needed
+
+
+        // Initialize and style the username text field
+        usernameField.setPromptText("Enter your username");
+        usernameField.setStyle("-fx-background-color: #3B6491; -fx-text-fill: white; -fx-font-size: 16px; -fx-padding: 10px;");
+
+
         // Style the buttons
         styleButton(onlineButton, "#3B6491");
         styleButton(offlineButton, "#3B6491");

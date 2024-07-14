@@ -15,14 +15,14 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 
-public class MainStage {
+public class MainStageConrtroller {
 
     private final Scene scene;
     private String username = "def";
     private final String imagePath = "file:src/main/java/com/battleship/images/";
     private Label usernameLabel = new Label("Username: " + username);
 
-    public MainStage() {
+    public MainStageConrtroller() {
         BorderPane root = new BorderPane();
         root.setStyle("-fx-background-color: #101B27;");
 
@@ -31,11 +31,11 @@ public class MainStage {
         // Title Banner
         Image logoImage = new Image(imagePath + "logo.png");
         ImageView titleBanner = new ImageView(logoImage);
-        titleBanner.setFitWidth(625);  // Adjust width to be approximately as wide as the grid
+        titleBanner.setFitWidth(400);  // Adjust width to be approximately as wide as the grid
         titleBanner.setFitHeight(250); // Ensure height does not exceed 250 pixels
         titleBanner.setPreserveRatio(true);
         VBox titleBox = new VBox(titleBanner);
-        titleBox.setStyle("-fx-background-color: #101B27; -fx-padding: 20px;"); // Dark blue
+        titleBox.setStyle("-fx-background-color: #101B27; -fx-padding: 10px;"); // Dark blue
         titleBox.setAlignment(Pos.CENTER);
         root.setTop(titleBox);
 
@@ -64,7 +64,7 @@ public class MainStage {
 
         // Username Box
         
-        usernameLabel.setStyle("-fx-background-color: #3B6491; -fx-text-fill: white; -fx-font-size: 16px; -fx-padding: 20px;"); // Increase padding and font size
+        usernameLabel.setStyle("-fx-background-color: #3B6491; -fx-text-fill: white; -fx-font-size: 16px; -fx-padding: 10px;"); // Increase padding and font size
         usernameLabel.setAlignment(Pos.CENTER);
 
         VBox usernameBox = new VBox(usernameLabel);
@@ -72,7 +72,7 @@ public class MainStage {
 
         // Change View Button
         Button changeViewButton = new Button("Change View");
-        changeViewButton.setStyle("-fx-background-color: #3B6491; -fx-text-fill: white; -fx-font-size: 16px; -fx-padding: 20px;"); // Increase padding and font size
+        changeViewButton.setStyle("-fx-background-color: #3B6491; -fx-text-fill: white; -fx-font-size: 16px; -fx-padding: 10px;"); // Increase padding and font size
         changeViewButton.setAlignment(Pos.CENTER);
         applyHoverEffect(changeViewButton, "#3B6491");
 
@@ -99,6 +99,7 @@ public class MainStage {
         VBox chatLogBox = new VBox();
         chatLogBox.setStyle("-fx-background-color: #3B6491; -fx-padding: 10px;");
         chatLogBox.setPrefHeight(640);  // Adjust height to fit remaining space after adding chat box
+
         Label chatLogLabel = new Label("Chat Log");
         chatLogLabel.setStyle("-fx-padding: 10px; -fx-text-fill: white; -fx-font-size: 16px;");  // Increase font size
         chatLogLabel.setMaxWidth(Double.MAX_VALUE);
@@ -167,8 +168,8 @@ public class MainStage {
     }
 
     public void setUsername(String outsideUsername) {
+        usernameLabel.setText("Username: " + outsideUsername);
         this.username = outsideUsername;
-        usernameLabel.setText("Username: " + username);
     }
 
     private String getUsername() {

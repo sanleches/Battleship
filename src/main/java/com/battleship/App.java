@@ -18,7 +18,7 @@ public class App extends Application {
 
     private static Scene initialSetupScene;
     private static Stage primaryStage;
-    private static MainStage mainStage;
+    private static MainStageConrtroller mainStage;
 
     @Override
     public void start(Stage primaryStage) throws IOException {
@@ -36,7 +36,7 @@ public class App extends Application {
 
     public static void switchToMainScene(String username, int mode) {
     if (mainStage == null) {
-        mainStage = new MainStage();
+        mainStage = new MainStageConrtroller();
     }
     mainStage.setUsername(username);
 
