@@ -1,8 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.layout.VBox?>
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
-<VBox xmlns:fx="http://javafx.com/fxml" fx:controller="com.battleship.App">
-    <Button fx:id="onlineButton" text="Online"/>
-    <Button fx:id="offlineButton" text="Offline"/>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox fx:id="initialSetupRoot" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.battleship.InitialSetupController">
+    <children>
+        <TextField fx:id="usernameField" promptText="Enter your username" />
+        <Button fx:id="onlineButton" text="Online" />
+        <Button fx:id="offlineButton" text="Offline" />
+    </children>
+    <padding>
+        <Insets top="20" right="20" bottom="20" left="20"/>
+    </padding>
+    <spacing>10</spacing>
+    <style>
+        -fx-background-color: #101B27;
+    </style>
 </VBox>

@@ -16,11 +16,10 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 
 public class MainStage {
-    
+
     private final Scene scene;
-
-    String imagePath = "file:src/main/java/com/battleship/images/";
-
+    private String username = "";
+    private final String imagePath = "file:src/main/java/com/battleship/images/";
 
     public MainStage() {
         BorderPane root = new BorderPane();
@@ -35,14 +34,14 @@ public class MainStage {
         titleBanner.setFitHeight(250); // Ensure height does not exceed 250 pixels
         titleBanner.setPreserveRatio(true);
         VBox titleBox = new VBox(titleBanner);
-        titleBox.setStyle("-fx-background-color: #101B27; -fx-padding: 20px;"); //dark blue
+        titleBox.setStyle("-fx-background-color: #101B27; -fx-padding: 20px;"); // Dark blue
         titleBox.setAlignment(Pos.CENTER);
         root.setTop(titleBox);
 
         // Battlefield Grid
         GridPane battlefieldGrid = new GridPane();
         battlefieldGrid.setAlignment(Pos.CENTER);
-        battlefieldGrid.setStyle("-fx-background-color: #799FC9; -fx-border-color: #101B27;"); 
+        battlefieldGrid.setStyle("-fx-background-color: #799FC9; -fx-border-color: #101B27;");
         for (int i = 0; i < 10; i++) {
             for (int j = 0; j < 10; j++) {
                 Button cell = new Button();
@@ -53,7 +52,6 @@ public class MainStage {
             }
         }
 
-
         addImageToGrid(battlefieldGrid, imagePath + "bow_east.png", 0, 0);
         addImageToGrid(battlefieldGrid, imagePath + "bow_north.png", 0, 1);
         addImageToGrid(battlefieldGrid, imagePath + "bow_south.png", 0, 2);
@@ -62,9 +60,9 @@ public class MainStage {
         addImageToGrid(battlefieldGrid, imagePath + "midhull_vert.png", 1, 1);
         addImageToGrid(battlefieldGrid, imagePath + "hit.png", 1, 2);
         addImageToGrid(battlefieldGrid, imagePath + "miss.png", 1, 3);
-        
+
         // Username Box
-        Label usernameLabel = new Label("Username: **");
+        Label usernameLabel = new Label("Username: " + getUsername());
         usernameLabel.setStyle("-fx-background-color: #3B6491; -fx-text-fill: white; -fx-font-size: 16px; -fx-padding: 20px;"); // Increase padding and font size
         usernameLabel.setAlignment(Pos.CENTER);
 
@@ -129,7 +127,7 @@ public class MainStage {
         root.setCenter(mainContainer);
     }
 
-    public  Scene getScene() {
+    public Scene getScene() {
         return scene;
     }
 
@@ -165,5 +163,14 @@ public class MainStage {
                 (int) (red * 255),
                 (int) (green * 255),
                 (int) (blue * 255));
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+        // Update username label if necessary
+    }
+
+    private String getUsername() {
+        return username;
     }
 }
