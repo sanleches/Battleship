@@ -21,7 +21,7 @@ public class App extends Application {
     private static MainStageConrtroller mainStage;
 
     @Override
-    public void start(Stage primaryStage) throws IOException {
+    public void start(@SuppressWarnings("exports") Stage primaryStage) throws IOException {
         App.primaryStage = primaryStage;
 
         // Initialize initial setup UI
@@ -46,6 +46,7 @@ public class App extends Application {
     double centerY = screenBounds.getMinY() + screenBounds.getHeight() / 2;
 
     primaryStage.setScene(mainStage.getScene());
+    primaryStage.setTitle("Battleship");
     primaryStage.setWidth(1920);  // Set window width to 1920
     primaryStage.setHeight(1080); // Set window height to 1080
     primaryStage.setMaximized(false); // Ensure the window is not maximized

@@ -1,12 +1,13 @@
 package com.battleship;
 
-import com.battleship.models.MenuPanel;
+import com.battleship.models.Menus;
 
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.MenuBar;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
@@ -28,6 +29,11 @@ public class MainStageConrtroller {
 
         scene = new Scene(root, 1920, 1080);  // Set initial size to 1920x1080
 
+        // Add Menu
+        Menus menus = new Menus();
+        MenuBar menuBar = menus.createMenuBar();
+        root.setTop(menuBar);
+
         // Title Banner
         Image logoImage = new Image(imagePath + "logo.png");
         ImageView titleBanner = new ImageView(logoImage);
@@ -37,7 +43,7 @@ public class MainStageConrtroller {
         VBox titleBox = new VBox(titleBanner);
         titleBox.setStyle("-fx-background-color: #101B27; -fx-padding: 10px;"); // Dark blue
         titleBox.setAlignment(Pos.CENTER);
-        root.setTop(titleBox);
+        root.setTop(new VBox(menuBar, titleBox));
 
         // Battlefield Grid
         GridPane battlefieldGrid = new GridPane();
@@ -63,7 +69,6 @@ public class MainStageConrtroller {
         addImageToGrid(battlefieldGrid, imagePath + "miss.png", 1, 3);
 
         // Username Box
-        
         usernameLabel.setStyle("-fx-background-color: #3B6491; -fx-text-fill: white; -fx-font-size: 16px; -fx-padding: 10px;"); // Increase padding and font size
         usernameLabel.setAlignment(Pos.CENTER);
 
@@ -125,7 +130,7 @@ public class MainStageConrtroller {
         chatContainer.getChildren().addAll(chatLogBox, chatBoxPlaceholder);
         applyHoverEffect(chatBoxPlaceholder, "#243E5A");
 
-        mainContainer.getChildren().addAll(chatContainer, centerBox, new MenuPanel());
+        mainContainer.getChildren().addAll(chatContainer, centerBox);
         root.setCenter(mainContainer);
     }
 
