@@ -18,7 +18,7 @@ import javafx.scene.paint.Color;
 public class MainStage {
 
     private final Scene scene;
-    private String username = "";
+    private String username = "def";
     private final String imagePath = "file:src/main/java/com/battleship/images/";
 
     public MainStage() {
@@ -62,7 +62,7 @@ public class MainStage {
         addImageToGrid(battlefieldGrid, imagePath + "miss.png", 1, 3);
 
         // Username Box
-        Label usernameLabel = new Label("Username: " + getUsername());
+        Label usernameLabel = new Label("Username: " + username);
         usernameLabel.setStyle("-fx-background-color: #3B6491; -fx-text-fill: white; -fx-font-size: 16px; -fx-padding: 20px;"); // Increase padding and font size
         usernameLabel.setAlignment(Pos.CENTER);
 
@@ -165,8 +165,8 @@ public class MainStage {
                 (int) (blue * 255));
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public void setUsername(String outsideUsername) {
+        this.username = outsideUsername;
         // Update username label if necessary
     }
 
