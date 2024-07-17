@@ -12,22 +12,20 @@ import javafx.stage.Stage;
 
 public class App extends Application {
 
-    
-
     public static void main(String[] args) {
-        launch();
+        launch(args);
     }
 
     private static Scene initialSetupScene;
     private static Stage primaryStage;
-    private static MainStageConrtroller mainStage;
+    private static MainStageController mainStage;
 
     @Override
-    public void start(@SuppressWarnings("exports") Stage primaryStage) throws IOException {
+    public void start(Stage primaryStage) throws IOException {
         App.primaryStage = primaryStage;
 
         // Initialize initial setup UI
-        Parent initialSetupRoot = FXMLLoader.load(getClass().getResource("InitialSetup.fxml"));
+        Parent initialSetupRoot = FXMLLoader.load(getClass().getResource("/com/battleship/InitialSetup.fxml"));
 
         initialSetupScene = new Scene(initialSetupRoot, 600, 600);
 
@@ -35,33 +33,34 @@ public class App extends Application {
         primaryStage.setScene(initialSetupScene);
         primaryStage.setTitle("Initial Setup");
         primaryStage.show();
-
     }
 
     public static void switchToMainScene(String username, int mode) {
-    if (mainStage == null) {
-        mainStage = new MainStageConrtroller();
+        if (mainStage == null) {
+            mainStage = new MainStageController();
+        }
+        mainStage.setUsername(username);
+
+        // Center the stage on the screen
+        Rectangle2D screenBounds = Screen.getPrimary().getVisualBounds();
+        double centerX = screenBounds.getMinX() + screenBounds.getWidth() / 2;
+        double centerY = screenBounds.getMinY() + screenBounds.getHeight() / 2;
+
+        primaryStage.setScene(mainStage.getScene());
+        primaryStage.setTitle("Battleship");
+        primaryStage.setWidth(1920);  // Set window width to 1920
+        primaryStage.setHeight(1080); // Set window height to 1080
+        primaryStage.setMaximized(false); // Ensure the window is not maximized
+
+        // Set the stage position to center
+        primaryStage.setX(centerX - primaryStage.getWidth() / 2);
+        primaryStage.setY(centerY - primaryStage.getHeight() / 2);
+
+        primaryStage.show();
     }
-    mainStage.setUsername(username);
 
-    // Center the stage on the screen
-    Rectangle2D screenBounds = Screen.getPrimary().getVisualBounds();
-    double centerX = screenBounds.getMinX() + screenBounds.getWidth() / 2;
-    double centerY = screenBounds.getMinY() + screenBounds.getHeight() / 2;
-
-    primaryStage.setScene(mainStage.getScene());
-    primaryStage.setTitle("Battleship");
-    primaryStage.setWidth(1920);  // Set window width to 1920
-    primaryStage.setHeight(1080); // Set window height to 1080
-    primaryStage.setMaximized(false); // Ensure the window is not maximized
-
-    // Set the stage position to center
-    primaryStage.setX(centerX - primaryStage.getWidth() / 2);
-    primaryStage.setY(centerY - primaryStage.getHeight() / 2);
-
-    primaryStage.show();
-    }
-    public static void switchToInitialScene(Parent initialSetupRoot) throws IOException{
+    public static void switchToInitialScene() throws IOException {
+        Parent initialSetupRoot = FXMLLoader.load(App.class.getResource("/com/battleship/InitialSetup.fxml"));
         initialSetupScene = new Scene(initialSetupRoot, 600, 600);
         primaryStage.setScene(initialSetupScene);
         primaryStage.setTitle("Initial Setup");
