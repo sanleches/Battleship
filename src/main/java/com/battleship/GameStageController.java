@@ -1,19 +1,27 @@
 package com.battleship;
 
+import com.battleship.mainStageModules.LogBox;
 import com.battleship.models.AI;
 import com.battleship.models.Board;
+
 
 
 public class GameStageController {
     public boolean turnFlag = true;
     public boolean usersetupcompleted = false;
     public boolean gamecompletion = false;
+    private LogBox logBox;
+
+
+    public GameStageController() {
+        this.logBox = new LogBox(); // Initialize LogBox
+    }
 
     public void gameExecution(Board userboard, Board aiboard, AI ai){
 
         while (usersetupcompleted == false){
             usersetupcompleted = userboard.areAllShipsPlaced();
-            //implement status banner
+            logBox.updateMessage("Please place all ships for the game to start.");
         }
 
         do { 
@@ -23,7 +31,7 @@ public class GameStageController {
             }
 
             if (userboard.allShipsSunk() == true || aiboard.allShipsSunk() == true ){
-                //implement banner write game completed 
+                logBox.updateMessage(" Game completed.");
             }
 
         } while (gamecompletion == false);
