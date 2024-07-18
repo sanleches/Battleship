@@ -269,7 +269,7 @@ public final class MainStageController {
         // cell.setStyle("-fx-border-color: black; -fx-border-width: 1; -fx-background-color: " + backgroundColor + ";");
 
         GameStageController game = new GameStageController(); 
-        //game.gameExecution(playerBoard, aiBoard, ai);
+        game.gameExecution(playerBoard, aiBoard, ai);
 
 
     }
