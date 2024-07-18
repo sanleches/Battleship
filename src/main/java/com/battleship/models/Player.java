@@ -6,6 +6,7 @@ public class Player {
     private String name;
     private Board board;
     private List<Ship> ships;
+    private boolean isReadyToStartGame = false;
 
     public Player(String name, int rows, int cols) {
         this.name = name;
@@ -51,5 +52,30 @@ public class Player {
 
     public String getName() {
         return name;
+    }
+
+    // Method to finalize ship placement and attempt to start the game
+    public void finalizeShipPlacement() {
+        if (areAllShipsPlaced()) {
+            isReadyToStartGame = true;
+            startGame();  // Proceed to start the game
+        } else {
+            System.out.println("Not all ships are placed. Please place all ships to start the game.");
+        }
+    }
+
+    private boolean areAllShipsPlaced() {
+        return board.areAllShipsPlaced();
+    }
+
+    // Starts the game if all ships are placed
+    private void startGame() {
+        if (isReadyToStartGame) {
+            System.out.println("Starting game...");
+            // Additional logic to transition into game playing phase
+            // For example: Set game state, initialize game timer, etc.
+        } else {
+            System.out.println("Cannot start game. Ensure all ships are placed.");
+        }
     }
 }
