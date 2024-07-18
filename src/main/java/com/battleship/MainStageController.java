@@ -262,12 +262,14 @@ public final class MainStageController {
         
         
 
-        GameStageController game = new GameStageController(); 
-        game.gameExecution(playerBoard, aiBoard, ai);
+        
         
         char[][] aiGrid = aiBoard.getGrid(); // Now retrieve the grid directly from the AI's board
         // String backgroundColor = (aiGrid[row][col] == 'S') ? "darkgray" : "lightblue";
         // cell.setStyle("-fx-border-color: black; -fx-border-width: 1; -fx-background-color: " + backgroundColor + ";");
+
+        GameStageController game = new GameStageController(); 
+        //game.gameExecution(playerBoard, aiBoard, ai);
 
 
     }
