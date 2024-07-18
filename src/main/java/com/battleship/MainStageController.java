@@ -37,7 +37,7 @@ import javafx.scene.paint.Color;
  * It handles the layout and interactions for the game setup, including the battlefield grid,
  * ship placement controls, and various UI components such as menus, chat log, and buttons.
  */
-public class MainStageController {
+public final class MainStageController {
 
     // Scene object representing the primary scene of the game
     private final Scene scene;
@@ -69,8 +69,12 @@ public class MainStageController {
     // Button to start the game
     private Button startGameButton;
 
-    private AI ai;
+    //AI INITIALIZATION
+    public Board aiBoard = new Board(10, 10); // Assuming you initialize a board for AI
+    public  AI ai = new AI(aiBoard); // Pass the board to AI
 
+    // Initialize the game board and the list of ships
+    public Board playerBoard = new Board(10, 10);
 
 
     public MainStageController() {
@@ -149,8 +153,7 @@ public class MainStageController {
         /*
          * MIDDLE VBOX AND COMPONENTS
          */
-        // Initialize the game board and the list of ships
-        Board playerBoard = new Board(10, 10);
+        
 
         //DISPLAY SHIPS AVAILABLE
         ships = new ArrayList<>();
@@ -257,19 +260,14 @@ public class MainStageController {
         * POST INITIALIZATION PROCESESS
         */
         
-        //AI INITIALIZATION
-        Board aiBoard = new Board(10, 10); // Assuming you initialize a board for AI
-        ai = new AI(aiBoard); // Pass the board to AI
+        
 
         GameStageController game = new GameStageController(); 
-        game.gameExecution(playerBoard, aiBoard);
-
-
-        ai.placeShips(); // Let AI place its ships on its board
+        game.gameExecution(playerBoard, aiBoard, ai);
+        
         char[][] aiGrid = aiBoard.getGrid(); // Now retrieve the grid directly from the AI's board
         // String backgroundColor = (aiGrid[row][col] == 'S') ? "darkgray" : "lightblue";
         // cell.setStyle("-fx-border-color: black; -fx-border-width: 1; -fx-background-color: " + backgroundColor + ";");
-        ai.attack(playerBoard);
 
 
     }
@@ -282,6 +280,11 @@ public class MainStageController {
         return scene;
     }
 
+
+    public void callAiAction(){
+
+        ai.attack(playerBoard);
+    }
 
     // Initialize the battlefield grid with cells and click handlers
     private void initializeGameGrid(Board playerBoard) {
