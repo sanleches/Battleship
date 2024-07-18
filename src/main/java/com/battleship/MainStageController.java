@@ -146,17 +146,20 @@ orientationButton.setOnAction(event -> {
         changeViewBox.setAlignment(Pos.CENTER);
 
         //Create a sub box containing buttons
-        VBox subCenterBox = new VBox();
+        HBox subCenterBox = new HBox(10); //bottom box contains functionality buttons
         subCenterBox.setAlignment(Pos.CENTER);
-        subCenterBox.setSpacing(5);
         subCenterBox.getChildren().addAll(orientationButton, changeViewBox);
+
+        // Create a label for the options
+        Label optionsLabel = new Label("Options:");
+        optionsLabel.setStyle("-fx-text-fill: white; -fx-font-size: 16px;"); // Adjust the style as needed
 
 
         // Create the center layout box with the battlefield grid and other components
         VBox centerBox = new VBox();
         centerBox.setAlignment(Pos.CENTER);
         centerBox.setSpacing(10);
-        centerBox.getChildren().addAll(usernameBox, battlefieldGrid, subCenterBox);
+        centerBox.getChildren().addAll(usernameBox, battlefieldGrid, optionsLabel, subCenterBox);
 
         // Initialize the ship container for dragging ships
         shipContainer = new VBox(0);
