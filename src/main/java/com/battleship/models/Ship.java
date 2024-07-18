@@ -62,6 +62,43 @@ public class Ship {
     public String toString() {
         return String.format("Ship[name=%s, size=%d, hits=%d]", name, size, hits.size());
     }
+
+    public int getShipLength() {
+        switch (name) {
+            case "Carrier":
+                return 4;
+            case "Battleship":
+                return 3;
+            case "Cruiser":
+                return 2;
+            case "Submarine":
+                return 3;
+            case "Destroyer":
+                return 4;
+            default:
+                return 0;
+        }
+    }
+
+
+    public String getShipImage() {
+        switch (symbol) {
+            case 'C':
+                return "carrier.png";
+            case 'B':
+                return "default.png"; // Assuming battleship.png is not available and default.png is used instead
+            case 'R':
+                return "cruiser.png";
+            case 'S':
+                return "submarine.png";
+            case 'D':
+                return "destroyer.png";
+            default:
+                return "default.png";
+        }
+    }
+    
+    
 }
 
 class Coordinate {
@@ -86,3 +123,4 @@ class Coordinate {
         return 31 * row + col;
     }
 }
+

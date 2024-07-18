@@ -12,7 +12,6 @@ import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuBar;
 import javafx.scene.image.Image;
@@ -30,33 +29,54 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 
-
-
+/**
+ * MainStageController is responsible for managing the primary UI elements of the Battleship game.
+ * It handles the layout and interactions for the game setup, including the battlefield grid,
+ * ship placement controls, and various UI components such as menus, chat log, and buttons.
+ */
 public class MainStageController {
 
+    // Scene object representing the primary scene of the game
     private final Scene scene;
+    // Default username set to "def"
     private String username = "def";
+    // Path to the images used in the application
     private final String imagePath = "file:src/main/java/com/battleship/images/";
+    // Label to display the username
     private Label usernameLabel = new Label("Username: " + username);
 
+    // Game board for the player
     private Board playerBoard;
+    // List of ships available for the player
     private List<Ship> ships;
+    // Current ship being placed on the board
     private Ship currentShip;
+    // Index of the current ship in the list
     private int currentShipIndex = 0;
+    // GridPane for the battlefield
     private GridPane battlefieldGrid;
-    private ComboBox<String> orientationComboBox;
+    //  to select the orientation of the ship (Horizontal/Vertical)
+    private boolean orientationButtonFlag = true; //Flag thart ius either vertical or horizontal
+    // Label to display the name of the current ship being placed
     private Label shipLabel;
+    // VBox container for ships
     private VBox shipContainer;
+    // Button to start the game
     private Button startGameButton;
 
-
+    /**
+     * Constructor for MainStageController.
+     * Initializes the UI elements and sets up the layout for the main game stage.
+     */
     public MainStageController() {
+        // Initialize the root layout container and set the background color
         BorderPane root = new BorderPane();
         root.setStyle("-fx-background-color: #101B27;");
 
-        scene = new Scene(root, 1920, 1080);  // Set initial size to 1920x1080
+        // Create and set the scene with the specified size
+        scene = new Scene(root, 1920, 1080);
 
-        // Initialize the board and ships
+        // Initialize the game board and the list of ships
         playerBoard = new Board(10, 10);
         ships = new ArrayList<>();
         ships.add(new Ship("Carrier", 4, 'C'));
@@ -65,111 +85,136 @@ public class MainStageController {
         ships.add(new Ship("Submarine", 3, 'S'));
         ships.add(new Ship("Destroyer", 4, 'D'));
 
-        // Add Menu
+        // Add the menu bar to the top of the root container
         Menus menus = new Menus();
         MenuBar menuBar = menus.createMenuBar();
         root.setTop(menuBar);
 
-        // Title Banner
+        // Set up the title banner with an image logo
         Image logoImage = new Image(imagePath + "logo.png");
         ImageView titleBanner = new ImageView(logoImage);
-        titleBanner.setFitWidth(400);  // Adjust width to be approximately as wide as the grid
-        titleBanner.setFitHeight(250); // Ensure height does not exceed 250 pixels
+        titleBanner.setFitWidth(400);
+        titleBanner.setFitHeight(250);
         titleBanner.setPreserveRatio(true);
         VBox titleBox = new VBox(titleBanner);
-        titleBox.setStyle("-fx-background-color: #101B27; -fx-padding: 10px;"); // Dark blue
+        titleBox.setStyle("-fx-background-color: #101B27; -fx-padding: 10px;");
         titleBox.setAlignment(Pos.CENTER);
         root.setTop(new VBox(menuBar, titleBox));
 
-        // Battlefield Grid
+        // Initialize the battlefield grid and set its style
         battlefieldGrid = new GridPane();
         battlefieldGrid.setAlignment(Pos.CENTER);
         battlefieldGrid.setStyle("-fx-background-color: #799FC9; -fx-border-color: #101B27;");
         initializeGameGrid();
 
-        // Ship Placement Controls
-        shipLabel = new Label("Placing: " + ships.get(currentShipIndex).getName());
-        shipLabel.setStyle("-fx-text-fill: white; -fx-font-size: 16px;");
-        orientationComboBox = new ComboBox<>();
-        orientationComboBox.getItems().addAll("Horizontal", "Vertical");
-        orientationComboBox.setValue("Horizontal");
 
-        VBox shipPlacementBox = new VBox(10, shipLabel, orientationComboBox);
-        shipPlacementBox.setAlignment(Pos.CENTER);
-        shipPlacementBox.setStyle("-fx-background-color: #101B27; -fx-padding: 20px;");
+// Initialize the button with the default orientation
+Button orientationButton = new Button("Horizontal");//default is true so Horizontal
+orientationButton.setStyle("-fx-background-color: #3B6491; -fx-text-fill: white; -fx-font-size: 16px; -fx-padding: 10px;");
 
-        // Username Box
-        usernameLabel.setStyle("-fx-background-color: #3B6491; -fx-text-fill: white; -fx-font-size: 16px; -fx-padding: 10px;"); // Increase padding and font size
+// Set up the action for the button to toggle orientation
+orientationButton.setOnAction(event -> {
+    if (orientationButton.getText().contains("Horizontal")) {
+        orientationButton.setText("Vertical");
+        orientationButtonFlag = false;
+    } else {
+        orientationButton.setText("Horizontal");
+        orientationButtonFlag = true;
+    }
+});
+
+// Create a VBox to hold the ship label and orientation button
+// VBox shipPlacementBox = new VBox(10, shipLabel, orientationButton);
+// shipPlacementBox.setAlignment(Pos.CENTER);
+// shipPlacementBox.setStyle("-fx-background-color: #101B27; -fx-padding: 20px;");
+
+
+        // Set up the username display box
+        usernameLabel.setStyle("-fx-background-color: #3B6491; -fx-text-fill: white; -fx-font-size: 16px; -fx-padding: 10px;");
         usernameLabel.setAlignment(Pos.CENTER);
 
         VBox usernameBox = new VBox(usernameLabel);
         usernameBox.setAlignment(Pos.CENTER);
 
-        // Change View Button
+        // Set up the button to change views
         Button changeViewButton = new Button("Change View");
-        changeViewButton.setStyle("-fx-background-color: #3B6491; -fx-text-fill: white; -fx-font-size: 16px; -fx-padding: 10px;"); // Increase padding and font size
+        changeViewButton.setStyle("-fx-background-color: #3B6491; -fx-text-fill: white; -fx-font-size: 16px; -fx-padding: 10px;");
         changeViewButton.setAlignment(Pos.CENTER);
         applyHoverEffect(changeViewButton, "#3B6491");
 
         VBox changeViewBox = new VBox(changeViewButton);
         changeViewBox.setAlignment(Pos.CENTER);
 
-        // Center layout with battlefield grid and placeholders
+        //Create a sub box containing buttons
+        VBox subCenterBox = new VBox();
+        subCenterBox.setAlignment(Pos.CENTER);
+        subCenterBox.setSpacing(5);
+        subCenterBox.getChildren().addAll(orientationButton, changeViewBox);
+
+
+        // Create the center layout box with the battlefield grid and other components
         VBox centerBox = new VBox();
         centerBox.setAlignment(Pos.CENTER);
-        centerBox.setSpacing(10);  // Adjust spacing between elements
+        centerBox.setSpacing(10);
+        centerBox.getChildren().addAll(usernameBox, battlefieldGrid, subCenterBox);
 
-        centerBox.getChildren().addAll(usernameBox, battlefieldGrid, shipPlacementBox, changeViewBox);
-
-        // Ship Container for Dragging Ships
+        // Initialize the ship container for dragging ships
         shipContainer = new VBox(0);
         shipContainer.setAlignment(Pos.CENTER);
         shipContainer.setStyle("-fx-background-color: #101B27; -fx-padding: 20px;");
         initializeShipContainer();
 
-        // Side Containers for Chat Log and Settings
+        // Set up the main container with chat log and settings on the sides
         HBox mainContainer = new HBox();
-        mainContainer.setAlignment(Pos.TOP_CENTER);  // Adjust alignment to top center
+        mainContainer.setAlignment(Pos.TOP_CENTER);
         mainContainer.setSpacing(40);
 
-        // Chat Log and Chat Box
+        // Create the chat container
         VBox chatContainer = new VBox();
-        chatContainer.setPrefSize(525, 20);  // Set width directly on VBox
-        chatContainer.setPadding(new Insets(60, 0, 0, 0));  // 60 pixels padding from the top
+        chatContainer.setPrefSize(525, 20);
+        chatContainer.setPadding(new Insets(60, 0, 0, 0));
 
+        // Set up the chat log box
         VBox chatLogBox = new VBox();
         chatLogBox.setStyle("-fx-background-color: #3B6491; -fx-padding: 10px;");
-        chatLogBox.setPrefHeight(640);  // Adjust height to fit remaining space after adding chat box
+        chatLogBox.setPrefHeight(640);
 
         Label chatLogLabel = new Label("Chat Log");
-        chatLogLabel.setStyle("-fx-padding: 10px; -fx-text-fill: white; -fx-font-size: 16px;");  // Increase font size
+        chatLogLabel.setStyle("-fx-padding: 10px; -fx-text-fill: white; -fx-font-size: 16px;");
         chatLogLabel.setMaxWidth(Double.MAX_VALUE);
         chatLogLabel.setMaxHeight(Double.MAX_VALUE);
-        chatLogLabel.setPrefWidth(312 - 20);  // Adjust for padding
-        chatLogLabel.setPrefHeight(62 - 20);  // Adjust for padding
+        chatLogLabel.setPrefWidth(312 - 20);
+        chatLogLabel.setPrefHeight(62 - 20);
         chatLogLabel.setAlignment(Pos.TOP_LEFT);
         chatLogBox.getChildren().add(chatLogLabel);
 
+        // Set up the chat box placeholder
         VBox chatBoxPlaceholder = new VBox();
-        chatBoxPlaceholder.setPrefHeight(62);  // Adjust height directly on VBox
+        chatBoxPlaceholder.setPrefHeight(62);
         chatBoxPlaceholder.setStyle("-fx-background-color: #243E5A; -fx-padding: 10px;");
         Label chatBoxLabel = new Label("Chat Box");
-        chatBoxLabel.setStyle("-fx-text-fill: white; -fx-font-size: 16px;");  // Increase font size
+        chatBoxLabel.setStyle("-fx-text-fill: white; -fx-font-size: 16px;");
         chatBoxLabel.setAlignment(Pos.CENTER);
         chatBoxLabel.setMaxWidth(Double.MAX_VALUE);
         chatBoxLabel.setMaxHeight(Double.MAX_VALUE);
-        chatBoxLabel.setPrefWidth(312 - 20);  // Adjust for padding
-        chatBoxLabel.setPrefHeight(62 - 20);  // Adjust for padding
+        chatBoxLabel.setPrefWidth(312 - 20);
+        chatBoxLabel.setPrefHeight(62 - 20);
         chatBoxPlaceholder.getChildren().add(chatBoxLabel);
-        chatBoxPlaceholder.setAlignment(Pos.CENTER);  // Align content center to ensure label is centered within the box
-
-        chatContainer.getChildren().addAll(chatLogBox, chatBoxPlaceholder);
+        chatBoxPlaceholder.setAlignment(Pos.CENTER);
         applyHoverEffect(chatBoxPlaceholder, "#243E5A");
 
+        // Add the chat log and placeholder to the chat container
+        chatContainer.getChildren().addAll(chatLogBox, chatBoxPlaceholder);
+
+        // Add the main components to the main container
         mainContainer.getChildren().addAll(chatContainer, centerBox, shipContainer);
         root.setCenter(mainContainer);
     }
 
+
+    /** 
+     * @return Scene
+     */
     public Scene getScene() {
         return scene;
     }
@@ -204,7 +249,8 @@ public class MainStageController {
             int row = GridPane.getRowIndex(cell) != null ? GridPane.getRowIndex(cell) : 0;
             int col = GridPane.getColumnIndex(cell) != null ? GridPane.getColumnIndex(cell) : 0;
             String shipName = (String) event.getDragboard().getString();
-            highlightCells(row, col, shipName, true);
+            int lenght = getShipByName(shipName).getShipLength();
+            highlightCells(row, col, lenght, true);
             event.consume();
         });
         
@@ -213,7 +259,8 @@ public class MainStageController {
             int row = GridPane.getRowIndex(cell) != null ? GridPane.getRowIndex(cell) : 0;
             int col = GridPane.getColumnIndex(cell) != null ? GridPane.getColumnIndex(cell) : 0;
             String shipName = (String) event.getDragboard().getString();
-            highlightCells(row, col, shipName, false);
+            int lenght = getShipByName(shipName).getShipLength();
+            highlightCells(row, col, lenght, false);
             event.consume();
         });
         cell.setOnDragDropped(event -> {
@@ -227,7 +274,7 @@ private void handleDragDroppedOnCell(DragEvent event, VBox cell) {
     boolean success = false;
     if (db.hasString()) {
         String shipName = db.getString();
-        boolean horizontal = orientationComboBox.getValue().equals("Horizontal");
+        boolean horizontal = orientationButtonFlag;
         int finalRow = GridPane.getRowIndex(cell);
         int finalCol = GridPane.getColumnIndex(cell);
         currentShip = getShipByName(shipName);
@@ -252,7 +299,7 @@ private void updateShipContainerVisibility() {
 // Update your ship placement to respect the size constraints
 // Update your ship placement to respect the size constraints
 private void placeShipImage(Ship ship, int row, int col, boolean horizontal) {
-    ImageView shipImage = new ImageView(new Image(imagePath + getShipImage(ship.getSymbol())));
+    ImageView shipImage = new ImageView(new Image(imagePath + ship.getShipImage()));
     shipImage.setFitWidth(60);  // Set the width of the ship
     shipImage.setFitHeight(60 * ship.getSize());  // Set the height based on the ship size
     shipImage.setRotate(horizontal ? 90 : 0);  // Rotate the image based on orientation
@@ -294,7 +341,7 @@ private void initializeShipContainer() {
 
     for (Ship ship : ships) {
         if (!ship.isPlaced()) {
-            Image shipImageFile = new Image(imagePath + getShipImage(ship.getSymbol()));
+            Image shipImageFile = new Image(imagePath + ship.getShipImage());
             ImageView shipImage = new ImageView(shipImageFile);
             double scaledWidth = 30; // Reduce the width to ensure ships fit better
             double scaledHeight = (shipImageFile.getHeight() / shipImageFile.getWidth()) * scaledWidth;
@@ -338,41 +385,6 @@ private void initializeShipContainer() {
     }
     
 
-    private int getShipLength(String shipName) {
-        switch (shipName) {
-            case "Carrier":
-                return 4;
-            case "Battleship":
-                return 3;
-            case "Cruiser":
-                return 2;
-            case "Submarine":
-                return 3;
-            case "Destroyer":
-                return 4;
-            default:
-                return 0;
-        }
-    }
-
-
-    private String getShipImage(char shipSymbol) {
-        switch (shipSymbol) {
-            case 'C':
-                return "carrier.png";
-            case 'B':
-                return "default.png"; // Assuming battleship.png is not available and default.png is used instead
-            case 'R':
-                return "cruiser.png";
-            case 'S':
-                return "submarine.png";
-            case 'D':
-                return "destroyer.png";
-            default:
-                return "default.png";
-        }
-    }
-
     private Ship getShipByName(String name) {
         for (Ship ship : ships) {
             if (ship.getName().equals(name)) {
@@ -383,9 +395,8 @@ private void initializeShipContainer() {
     }
 
 
-    private void highlightCells(int startRow, int startCol, String shipName, boolean highlight) {
-        int length = getShipLength(shipName);
-        boolean horizontal = orientationComboBox.getValue().equals("Horizontal");
+    private void highlightCells(int startRow, int startCol, int length, boolean highlight) {
+        boolean horizontal = orientationButtonFlag;
         
         for (int i = 0; i < length; i++) {
             int row = horizontal ? startRow : startRow + i;
@@ -437,7 +448,7 @@ private void applyHoverEffect(Button button, String color) {
     }
 
     private void reapplyHoverEffects(int startRow, int startCol, boolean horizontal, Ship ship) {
-        int length = getShipLength(ship.getName());
+        int length = ship.getShipLength();
         for (int i = 0; i < length; i++) {
             int row = horizontal ? startRow : startRow + i;
             int col = horizontal ? startCol + i : startCol;
