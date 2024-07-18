@@ -84,7 +84,7 @@ public class MainStageController {
         // Create and set the scene with the specified size
         scene = new Scene(root, 1920, 1080);
 
-        // Add the menu bar to the top of the root container
+        // Add the menu bar to the top of the root container CONTAINS IMAGE
         Menus menus = new Menus();
         MenuBar menuBar = menus.createMenuBar();
         root.setTop(menuBar);
@@ -247,6 +247,23 @@ public class MainStageController {
         /*
          * END OF MAIN CONTAINER
          */
+        //###############################################################################################################################
+
+
+        /*
+        * POST INITIALIZATION PROCESESS
+        */
+        
+        //AI INITIALIZATION
+        Board aiBoard = new Board(10, 10); // Assuming you initialize a board for AI
+        ai = new AI(aiBoard); // Pass the board to AI
+        ai.placeShips(); // Let AI place its ships on its board
+        char[][] aiGrid = aiBoard.getGrid(); // Now retrieve the grid directly from the AI's board
+        // String backgroundColor = (aiGrid[row][col] == 'S') ? "darkgray" : "lightblue";
+        // cell.setStyle("-fx-border-color: black; -fx-border-width: 1; -fx-background-color: " + backgroundColor + ";");
+        ai.attack(playerBoard);
+
+
     }
 
 
@@ -260,15 +277,6 @@ public class MainStageController {
 
     // Initialize the battlefield grid with cells and click handlers
     private void initializeGameGrid() {
-
-        Board aiBoard = new Board(10, 10); // Assuming you initialize a board for AI
-        ai = new AI(aiBoard); // Pass the board to AI
-        ai.placeShips(); // Let AI place its ships on its board
-
-
-        char[][] aiGrid = aiBoard.getGrid(); // Now retrieve the grid directly from the AI's board
-
-
         for (int row = 0; row < 10; row++) {
             for (int col = 0; col < 10; col++) {
                 VBox cell = new VBox();
@@ -278,8 +286,7 @@ public class MainStageController {
                 cell.setMaxSize(60, 60);
                 cell.setAlignment(Pos.CENTER);
                 cell.setStyle("-fx-border-color: black; -fx-border-width: 1; -fx-background-color: lightblue;");
-                String backgroundColor = (aiGrid[row][col] == 'S') ? "darkgray" : "lightblue";
-                cell.setStyle("-fx-border-color: black; -fx-border-width: 1; -fx-background-color: " + backgroundColor + ";");
+                
 
                 // Apply hover effects using the existing method
                 applyHoverEffect(cell, "#ADD8E6");  // Using a lighter blue for hover
@@ -287,7 +294,6 @@ public class MainStageController {
                 battlefieldGrid.add(cell, col, row);
 
 
-                ai.attack(aiBoard);
 
             }
         }
