@@ -2,7 +2,10 @@ package com.battleship;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
+import java.util.ResourceBundle;
 
+import com.battleship.models.AI;
 import com.battleship.models.Board;
 import com.battleship.models.Menus;
 import com.battleship.models.Ship;
@@ -38,7 +41,9 @@ public class MainStageController {
 
     // Scene object representing the primary scene of the game
     private final Scene scene;
-    // Default username set to "def"
+ //   Locale.setDefault(new Locale("en", "US"));
+    ResourceBundle bundle = ResourceBundle.getBundle("com.battleship.MessagesBundle", Locale.getDefault());
+    
     private String username = "def";
     // Path to the images used in the application
     private final String imagePath = "file:src/main/java/com/battleship/images/";
@@ -63,11 +68,10 @@ public class MainStageController {
     private VBox shipContainer;
     // Button to start the game
     private Button startGameButton;
+    private AI ai;
 
-    /**
-     * Constructor for MainStageController.
-     * Initializes the UI elements and sets up the layout for the main game stage.
-     */
+
+
     public MainStageController() {
         // Initialize the root layout container and set the background color
         BorderPane root = new BorderPane();
@@ -212,6 +216,8 @@ orientationButton.setOnAction(event -> {
         // Add the main components to the main container
         mainContainer.getChildren().addAll(chatContainer, centerBox, shipContainer);
         root.setCenter(mainContainer);
+
+        
     }
 
 
@@ -222,8 +228,13 @@ orientationButton.setOnAction(event -> {
         return scene;
     }
 
+
     // Initialize the battlefield grid with cells and click handlers
     private void initializeGameGrid() {
+        Board aiBoard = new Board(10, 10); // Assuming you initialize a board for AI
+        ai = new AI(aiBoard); // Pass the board to AI
+        ai.placeShips(); // Let AI place its ships on its board
+        char[][] aiGrid = aiBoard.getGrid(); // Now retrieve the grid directly from the AI's board
         for (int row = 0; row < 10; row++) {
             for (int col = 0; col < 10; col++) {
                 VBox cell = new VBox();
@@ -233,14 +244,19 @@ orientationButton.setOnAction(event -> {
                 cell.setMaxSize(60, 60);
                 cell.setAlignment(Pos.CENTER);
                 cell.setStyle("-fx-border-color: black; -fx-border-width: 1; -fx-background-color: lightblue;");
-    
+                String backgroundColor = (aiGrid[row][col] == 'S') ? "darkgray" : "lightblue";
+                cell.setStyle("-fx-border-color: black; -fx-border-width: 1; -fx-background-color: " + backgroundColor + ";");
+
                 // Apply hover effects using the existing method
                 applyHoverEffect(cell, "#ADD8E6");  // Using a lighter blue for hover
 		        setupCellInteractions(cell);
                 battlefieldGrid.add(cell, col, row);
+                ai.attack(aiBoard);
+
             }
         }
     }
+    
 
     private void setupCellInteractions(VBox cell) {
         cell.setOnDragOver(event -> {
@@ -299,7 +315,6 @@ private void updateShipContainerVisibility() {
     initializeShipContainer();  // Re-initialize to reflect updated placement status
 }
 
-// Update your ship placement to respect the size constraints
 // Update your ship placement to respect the size constraints
 private void placeShipImage(Ship ship, int row, int col, boolean horizontal) {
     ImageView shipImage = new ImageView(new Image(imagePath + ship.getShipImage()));
