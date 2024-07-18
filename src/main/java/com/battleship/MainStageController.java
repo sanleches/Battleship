@@ -50,8 +50,8 @@ public class MainStageController {
     // Label to display the username
     private Label usernameLabel = new Label("Username: " + username);
 
-    // Game board for the player
-    private Board playerBoard;
+
+
     // List of ships available for the player
     private List<Ship> ships;
     // Current ship being placed on the board
@@ -68,6 +68,7 @@ public class MainStageController {
     private VBox shipContainer;
     // Button to start the game
     private Button startGameButton;
+
     private AI ai;
 
 
@@ -149,7 +150,9 @@ public class MainStageController {
          * MIDDLE VBOX AND COMPONENTS
          */
         // Initialize the game board and the list of ships
-        playerBoard = new Board(10, 10);
+        Board playerBoard = new Board(10, 10);
+
+        //DISPLAY SHIPS AVAILABLE
         ships = new ArrayList<>();
         ships.add(new Ship("Carrier", 4, 'C'));
         ships.add(new Ship("Battleship", 3, 'B'));
@@ -162,7 +165,7 @@ public class MainStageController {
         battlefieldGrid = new GridPane();
         battlefieldGrid.setAlignment(Pos.CENTER);
         battlefieldGrid.setStyle("-fx-background-color: #799FC9; -fx-border-color: #101B27;");
-        initializeGameGrid();
+        initializeGameGrid(playerBoard);
 
 
         // Initialize the button with the default orientation
@@ -257,6 +260,11 @@ public class MainStageController {
         //AI INITIALIZATION
         Board aiBoard = new Board(10, 10); // Assuming you initialize a board for AI
         ai = new AI(aiBoard); // Pass the board to AI
+
+        GameStageController game = new GameStageController(); 
+        game.gameExecution(playerBoard, aiBoard);
+
+
         ai.placeShips(); // Let AI place its ships on its board
         char[][] aiGrid = aiBoard.getGrid(); // Now retrieve the grid directly from the AI's board
         // String backgroundColor = (aiGrid[row][col] == 'S') ? "darkgray" : "lightblue";
@@ -276,7 +284,7 @@ public class MainStageController {
 
 
     // Initialize the battlefield grid with cells and click handlers
-    private void initializeGameGrid() {
+    private void initializeGameGrid(Board playerBoard) {
         for (int row = 0; row < 10; row++) {
             for (int col = 0; col < 10; col++) {
                 VBox cell = new VBox();
@@ -290,7 +298,7 @@ public class MainStageController {
 
                 // Apply hover effects using the existing method
                 applyHoverEffect(cell, "#ADD8E6");  // Using a lighter blue for hover
-		        setupCellInteractions(cell);
+		        setupCellInteractions(cell, playerBoard);
                 battlefieldGrid.add(cell, col, row);
 
 
@@ -300,7 +308,7 @@ public class MainStageController {
     }
     
 
-    private void setupCellInteractions(VBox cell) {
+    private void setupCellInteractions(VBox cell, Board playerBoard) {
         cell.setOnDragOver(event -> {
             event.acceptTransferModes(TransferMode.COPY_OR_MOVE);
             event.consume();
@@ -325,12 +333,12 @@ public class MainStageController {
             event.consume();
         });
         cell.setOnDragDropped(event -> {
-            handleDragDroppedOnCell(event, cell);
+            handleDragDroppedOnCell(event, cell, playerBoard);
         });
     }
 
 // Handle the drop of a ship image into a cell
-private void handleDragDroppedOnCell(DragEvent event, VBox cell) {
+private void handleDragDroppedOnCell(DragEvent event, VBox cell, Board playerBoard) {
     Dragboard db = event.getDragboard();
     boolean success = false;
     if (db.hasString()) {
@@ -340,7 +348,7 @@ private void handleDragDroppedOnCell(DragEvent event, VBox cell) {
         int finalCol = GridPane.getColumnIndex(cell);
         currentShip = getShipByName(shipName);
         if (!currentShip.isPlaced() && playerBoard.placeShip(currentShip, finalRow, finalCol, horizontal)) {
-            placeShipImage(currentShip, finalRow, finalCol, horizontal);
+            placeShipImage(currentShip, finalRow, finalCol, horizontal, playerBoard);
             reapplyHoverEffects(finalRow, finalCol, horizontal, currentShip);
             currentShip.setPlaced(true);  // Mark the ship as placed
             updateShipContainerVisibility();  // Refresh the ship container
@@ -358,7 +366,7 @@ private void updateShipContainerVisibility() {
 }
 
 // Update your ship placement to respect the size constraints
-private void placeShipImage(Ship ship, int row, int col, boolean horizontal) {
+private void placeShipImage(Ship ship, int row, int col, boolean horizontal, Board playerBoard) {
     ImageView shipImage = new ImageView(new Image(imagePath + ship.getShipImage()));
     shipImage.setFitWidth(60);  // Set the width of the ship
     shipImage.setFitHeight(60 * ship.getSize());  // Set the height based on the ship size
@@ -383,7 +391,7 @@ private void placeShipImage(Ship ship, int row, int col, boolean horizontal) {
         int currentCol = horizontal ? col + i : col;
         VBox cell = getCellByRowColumnIndex(currentRow, currentCol, battlefieldGrid);
         if (cell != null) {
-            setupCellInteractions(cell);  // Re-setup interactions
+            setupCellInteractions(cell,playerBoard);  // Re-setup interactions
             applyHoverEffect(cell, "#ADD8E6");  // Reapply hover effect
         }
     }
