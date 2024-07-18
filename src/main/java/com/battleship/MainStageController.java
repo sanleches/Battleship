@@ -41,7 +41,7 @@ public class MainStageController {
 
     // Scene object representing the primary scene of the game
     private final Scene scene;
- //   Locale.setDefault(new Locale("en", "US"));
+    //   Locale.setDefault(new Locale("en", "US"));
     ResourceBundle bundle = ResourceBundle.getBundle("com.battleship.MessagesBundle", Locale.getDefault());
     
     private String username = "def";
@@ -73,21 +73,16 @@ public class MainStageController {
 
 
     public MainStageController() {
+
+        /*
+         * STAGE CONROLLER VARS AND INITS
+         */
         // Initialize the root layout container and set the background color
         BorderPane root = new BorderPane();
         root.setStyle("-fx-background-color: #101B27;");
 
         // Create and set the scene with the specified size
         scene = new Scene(root, 1920, 1080);
-
-        // Initialize the game board and the list of ships
-        playerBoard = new Board(10, 10);
-        ships = new ArrayList<>();
-        ships.add(new Ship("Carrier", 4, 'C'));
-        ships.add(new Ship("Battleship", 3, 'B'));
-        ships.add(new Ship("Cruiser", 2, 'R'));
-        ships.add(new Ship("Submarine", 3, 'S'));
-        ships.add(new Ship("Destroyer", 4, 'D'));
 
         // Add the menu bar to the top of the root container
         Menus menus = new Menus();
@@ -105,6 +100,64 @@ public class MainStageController {
         titleBox.setAlignment(Pos.CENTER);
         root.setTop(new VBox(menuBar, titleBox));
 
+        /*
+         * LEFT VBOX AND COMPONENTS
+         */
+
+        // Create the chat container
+        VBox chatContainer = new VBox();
+        chatContainer.setPrefSize(525, 20);
+        chatContainer.setPadding(new Insets(60, 0, 0, 0));
+
+        // Set up the chat log box
+        VBox chatLogBox = new VBox();
+        chatLogBox.setStyle("-fx-background-color: #3B6491; -fx-padding: 10px;");
+        chatLogBox.setPrefHeight(640);
+
+        Label chatLogLabel = new Label("Chat Log");
+        chatLogLabel.setStyle("-fx-padding: 10px; -fx-text-fill: white; -fx-font-size: 16px;");
+        chatLogLabel.setMaxWidth(Double.MAX_VALUE);
+        chatLogLabel.setMaxHeight(Double.MAX_VALUE);
+        chatLogLabel.setPrefWidth(312 - 20);
+        chatLogLabel.setPrefHeight(62 - 20);
+        chatLogLabel.setAlignment(Pos.TOP_LEFT);
+        chatLogBox.getChildren().add(chatLogLabel);
+
+        // Set up the chat box placeholder
+        VBox chatBoxPlaceholder = new VBox();
+        chatBoxPlaceholder.setPrefHeight(62);
+        chatBoxPlaceholder.setStyle("-fx-background-color: #243E5A; -fx-padding: 10px;");
+        Label chatBoxLabel = new Label("Chat Box");
+        chatBoxLabel.setStyle("-fx-text-fill: white; -fx-font-size: 16px;");
+        chatBoxLabel.setAlignment(Pos.CENTER);
+        chatBoxLabel.setMaxWidth(Double.MAX_VALUE);
+        chatBoxLabel.setMaxHeight(Double.MAX_VALUE);
+        chatBoxLabel.setPrefWidth(312 - 20);
+        chatBoxLabel.setPrefHeight(62 - 20);
+        chatBoxPlaceholder.getChildren().add(chatBoxLabel);
+        chatBoxPlaceholder.setAlignment(Pos.CENTER);
+        applyHoverEffect(chatBoxPlaceholder, "#243E5A");
+
+        // Add the chat log and placeholder to the chat container
+        chatContainer.getChildren().addAll(chatLogBox, chatBoxPlaceholder);
+        /*
+         * END OF LEFT VBOX
+         */
+        //###############################################################################################################################
+
+        /*
+         * MIDDLE VBOX AND COMPONENTS
+         */
+        // Initialize the game board and the list of ships
+        playerBoard = new Board(10, 10);
+        ships = new ArrayList<>();
+        ships.add(new Ship("Carrier", 4, 'C'));
+        ships.add(new Ship("Battleship", 3, 'B'));
+        ships.add(new Ship("Cruiser", 2, 'R'));
+        ships.add(new Ship("Submarine", 3, 'S'));
+        ships.add(new Ship("Destroyer", 4, 'D'));
+
+
         // Initialize the battlefield grid and set its style
         battlefieldGrid = new GridPane();
         battlefieldGrid.setAlignment(Pos.CENTER);
@@ -112,26 +165,20 @@ public class MainStageController {
         initializeGameGrid();
 
 
-// Initialize the button with the default orientation
-Button orientationButton = new Button("Horizontal");//default is true so Horizontal
-orientationButton.setStyle("-fx-background-color: #3B6491; -fx-text-fill: white; -fx-font-size: 16px; -fx-padding: 10px;");
+        // Initialize the button with the default orientation
+        Button orientationButton = new Button("Horizontal");//default is true so Horizontal
+        orientationButton.setStyle("-fx-background-color: #3B6491; -fx-text-fill: white; -fx-font-size: 16px; -fx-padding: 10px;");
 
-// Set up the action for the button to toggle orientation
-orientationButton.setOnAction(event -> {
-    if (orientationButton.getText().contains("Horizontal")) {
-        orientationButton.setText("Vertical");
-        orientationButtonFlag = false;
-    } else {
-        orientationButton.setText("Horizontal");
-        orientationButtonFlag = true;
-    }
-});
-
-// Create a VBox to hold the ship label and orientation button
-// VBox shipPlacementBox = new VBox(10, shipLabel, orientationButton);
-// shipPlacementBox.setAlignment(Pos.CENTER);
-// shipPlacementBox.setStyle("-fx-background-color: #101B27; -fx-padding: 20px;");
-
+        // Set up the action for the button to toggle orientation
+        orientationButton.setOnAction(event -> {
+            if (orientationButton.getText().contains("Horizontal")) {
+                orientationButton.setText("Vertical");
+                orientationButtonFlag = false;
+            } else {
+                orientationButton.setText("Horizontal");
+                orientationButtonFlag = true;
+            }
+        });
 
         // Set up the username display box
         usernameLabel.setStyle("-fx-background-color: #3B6491; -fx-text-fill: white; -fx-font-size: 16px; -fx-padding: 10px;");
@@ -170,54 +217,36 @@ orientationButton.setOnAction(event -> {
         shipContainer.setAlignment(Pos.CENTER);
         shipContainer.setStyle("-fx-background-color: #101B27; -fx-padding: 20px;");
         initializeShipContainer();
+        /*
+         * END OF MIDDLE VBOX
+         */
+        //###############################################################################################################################
 
+        /*
+         * RIGHT VBOX
+         */
+
+
+        /*
+         * END OF MIDDLE VBOX
+         */
+        //###############################################################################################################################
+
+
+        /*
+         * MAIN CONTAINER CREATION
+         */
         // Set up the main container with chat log and settings on the sides
         HBox mainContainer = new HBox();
         mainContainer.setAlignment(Pos.TOP_CENTER);
         mainContainer.setSpacing(40);
 
-        // Create the chat container
-        VBox chatContainer = new VBox();
-        chatContainer.setPrefSize(525, 20);
-        chatContainer.setPadding(new Insets(60, 0, 0, 0));
-
-        // Set up the chat log box
-        VBox chatLogBox = new VBox();
-        chatLogBox.setStyle("-fx-background-color: #3B6491; -fx-padding: 10px;");
-        chatLogBox.setPrefHeight(640);
-
-        Label chatLogLabel = new Label("Chat Log");
-        chatLogLabel.setStyle("-fx-padding: 10px; -fx-text-fill: white; -fx-font-size: 16px;");
-        chatLogLabel.setMaxWidth(Double.MAX_VALUE);
-        chatLogLabel.setMaxHeight(Double.MAX_VALUE);
-        chatLogLabel.setPrefWidth(312 - 20);
-        chatLogLabel.setPrefHeight(62 - 20);
-        chatLogLabel.setAlignment(Pos.TOP_LEFT);
-        chatLogBox.getChildren().add(chatLogLabel);
-
-        // Set up the chat box placeholder
-        VBox chatBoxPlaceholder = new VBox();
-        chatBoxPlaceholder.setPrefHeight(62);
-        chatBoxPlaceholder.setStyle("-fx-background-color: #243E5A; -fx-padding: 10px;");
-        Label chatBoxLabel = new Label("Chat Box");
-        chatBoxLabel.setStyle("-fx-text-fill: white; -fx-font-size: 16px;");
-        chatBoxLabel.setAlignment(Pos.CENTER);
-        chatBoxLabel.setMaxWidth(Double.MAX_VALUE);
-        chatBoxLabel.setMaxHeight(Double.MAX_VALUE);
-        chatBoxLabel.setPrefWidth(312 - 20);
-        chatBoxLabel.setPrefHeight(62 - 20);
-        chatBoxPlaceholder.getChildren().add(chatBoxLabel);
-        chatBoxPlaceholder.setAlignment(Pos.CENTER);
-        applyHoverEffect(chatBoxPlaceholder, "#243E5A");
-
-        // Add the chat log and placeholder to the chat container
-        chatContainer.getChildren().addAll(chatLogBox, chatBoxPlaceholder);
-
         // Add the main components to the main container
         mainContainer.getChildren().addAll(chatContainer, centerBox, shipContainer);
         root.setCenter(mainContainer);
-
-        
+        /*
+         * END OF MAIN CONTAINER
+         */
     }
 
 
@@ -231,10 +260,15 @@ orientationButton.setOnAction(event -> {
 
     // Initialize the battlefield grid with cells and click handlers
     private void initializeGameGrid() {
+
         Board aiBoard = new Board(10, 10); // Assuming you initialize a board for AI
         ai = new AI(aiBoard); // Pass the board to AI
         ai.placeShips(); // Let AI place its ships on its board
+
+
         char[][] aiGrid = aiBoard.getGrid(); // Now retrieve the grid directly from the AI's board
+
+
         for (int row = 0; row < 10; row++) {
             for (int col = 0; col < 10; col++) {
                 VBox cell = new VBox();
@@ -251,6 +285,8 @@ orientationButton.setOnAction(event -> {
                 applyHoverEffect(cell, "#ADD8E6");  // Using a lighter blue for hover
 		        setupCellInteractions(cell);
                 battlefieldGrid.add(cell, col, row);
+
+
                 ai.attack(aiBoard);
 
             }
