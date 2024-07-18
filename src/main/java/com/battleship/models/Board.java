@@ -96,18 +96,15 @@ public class Board {
                 return false;
             }
         }
-        System.out.println("Game Ended: All ships have been destroyed.");
         return true;
     }
 
-    public boolean isboardplaced(){
-        //TODO JULIAN
-        if (true){
-            return true;
+    public boolean areAllShipsPlaced() {
+        for (Ship ship : ships) {
+            if (!ship.isPlaced()) {
+                return false;
+            }
         }
-        else{
-            return false;
-        }
-
+        return true;
     }
 }
