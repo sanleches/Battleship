@@ -99,4 +99,15 @@ public class Board {
         System.out.println("Game Ended: All ships have been destroyed.");
         return true;
     }
+
+    public boolean isboardplaced(){
+        //TODO JULIAN
+        if (true){
+            return true;
+        }
+        else{
+            return false;
+        }
+
+    }
 }
