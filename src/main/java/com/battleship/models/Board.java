@@ -90,7 +90,7 @@ public class Board {
         return false;
     }
 
-    private boolean allShipsSunk() {
+    public boolean allShipsSunk() {
         for (Ship ship : ships) {
             if (!ship.isSunk()) {
                 return false;
