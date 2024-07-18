@@ -31,12 +31,17 @@ public class GameStageController {
             }
 
             if (userboard.allShipsSunk() == true || aiboard.allShipsSunk() == true ){
-                logBox.updateMessage(" Game completed.");
+                if(userboard.allShipsSunk()){
+                    logBox.updateMessage(" Game completed. Winner AI");
+                }
+                else if (aiboard.allShipsSunk()) {
+                    logBox.updateMessage(" Game completed. You WON!");
+
+                }
             }
 
         } while (gamecompletion == false);
 
-        //if out of do while display game completed and winner based on userboard.allshipsunk
 
     }
 }
