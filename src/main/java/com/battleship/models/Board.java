@@ -98,4 +98,13 @@ public class Board {
         }
         return true;
     }
+
+    public boolean areAllShipsPlaced() {
+        for (Ship ship : ships) {
+            if (!ship.isPlaced()) {
+                return false;
+            }
+        }
+        return true;
+    }
 }
