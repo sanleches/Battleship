@@ -1,8 +1,8 @@
-package Server.Controller;
+package com.battleship.Server.Controller;
 
 import javafx.application.Platform;
-import Server.Model.Game;
-import Utils.Command;
+import com.battleship.Server.Model.Game;
+import com.battleship.Utils.Command;
 
 import java.io.IOException;
 import java.net.ServerSocket;

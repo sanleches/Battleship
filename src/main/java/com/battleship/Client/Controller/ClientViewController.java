@@ -1,4 +1,4 @@
-package Client.Controller;
+package com.battleship.Client.Controller;
 
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -14,12 +14,12 @@ import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
-import Client.Model.ClientCell;
-import Client.Model.ClientSocket;
-import Client.Model.EnemyBoard;
-import Client.Model.PlayerBoard;
-import Utils.Command;
-import Utils.Package;
+import com.battleship.Client.Model.ClientCell;
+import com.battleship.Client.Model.ClientSocket;
+import com.battleship.Client.Model.EnemyBoard;
+import com.battleship.Client.Model.PlayerBoard;
+import com.battleship.Utils.Command;
+import com.battleship.Utils.Package;
 
 import java.net.URL;
 import java.time.LocalTime;

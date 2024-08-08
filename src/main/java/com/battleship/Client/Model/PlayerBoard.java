@@ -1,6 +1,6 @@
-package Client.Model;
+package com.battleship.Client.Model;
 
-import Client.Controller.ClientViewController;
+import com.battleship.Client.Controller.ClientViewController;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.value.ChangeListener;

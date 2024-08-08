@@ -1,4 +1,4 @@
-package Utils;
+package com.battleship.Utils;
 
 public enum Command {
     LOGIN,

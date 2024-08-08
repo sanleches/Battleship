@@ -1,4 +1,4 @@
-package Server.Model;
+package com.battleship.Server.Model;
 
 import java.io.BufferedReader;
 import java.io.IOException;

@@ -1,11 +1,11 @@
-package Client.Controller;
+package com.battleship.Client.Controller;
 
 import javafx.application.Platform;
 import javafx.concurrent.Service;
 import javafx.concurrent.Task;
 import javafx.scene.paint.Color;
-import Client.Model.ClientSocket;
-import Utils.Command;
+import com.battleship.Client.Model.ClientSocket;
+import com.battleship.Utils.Command;
 
 public class GameService extends Service<Void> {
     public ClientViewController viewController;

@@ -1,6 +1,7 @@
-package Client.Model;
+package com.battleship.Client.Model;
 
-import Utils.Point;
+import com.battleship.Utils.Point;
+
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 

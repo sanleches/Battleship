@@ -1,9 +1,9 @@
-package Server.Model;
+package com.battleship.Server.Model;
 
-import Server.Controller.Player;
-import Utils.Command;
-import Utils.Package;
-import Utils.Point;
+import com.battleship.Server.Controller.Player;
+import com.battleship.Utils.Command;
+import com.battleship.Utils.Package;
+import com.battleship.Utils.Point;
 
 public class Game {
     private String gameName;

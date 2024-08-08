@@ -1,6 +1,6 @@
-package Server.Model;
+package com.battleship.Server.Model;
 
-import Utils.Point;
+import com.battleship.Utils.Point;
 
 public class Ship {
     private final int length;

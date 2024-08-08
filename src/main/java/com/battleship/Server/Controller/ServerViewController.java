@@ -1,4 +1,9 @@
-package Server.Controller;
+package com.battleship.Server.Controller;
+
+import java.net.URL;
+import java.util.ResourceBundle;
+
+import com.battleship.Utils.Command;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -6,10 +11,6 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
-import Utils.Command;
-
-import java.net.URL;
-import java.util.ResourceBundle;
 
 public class ServerViewController implements Initializable {
     @FXML

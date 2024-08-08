@@ -1,4 +1,4 @@
-package Client.Model;
+package com.battleship.Client.Model;
 
 import javafx.event.EventHandler;
 import javafx.scene.input.MouseEvent;

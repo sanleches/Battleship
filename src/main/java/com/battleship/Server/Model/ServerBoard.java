@@ -1,9 +1,9 @@
-package Server.Model;
-
-import Utils.Point;
+package com.battleship.Server.Model;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import com.battleship.Utils.Point;
 
 public class ServerBoard {
     private int unitsLeft = 10;

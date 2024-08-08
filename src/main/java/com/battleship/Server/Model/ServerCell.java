@@ -1,4 +1,4 @@
-package Server.Model;
+package com.battleship.Server.Model;
 
 public class ServerCell {
     private Ship ship = null;

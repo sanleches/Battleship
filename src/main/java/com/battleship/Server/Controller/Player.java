@@ -1,8 +1,8 @@
-package Server.Controller;
+package com.battleship.Server.Controller;
 
-import Server.Model.Game;
-import Server.Model.PlayerSocket;
-import Utils.Command;
+import com.battleship.Server.Model.Game;
+import com.battleship.Server.Model.PlayerSocket;
+import com.battleship.Utils.Command;
 
 import java.net.Socket;
 
