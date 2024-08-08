@@ -1,14 +1,14 @@
-package com.battleship;
+package com.battleship.view;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
-import com.battleship.models.AI;
-import com.battleship.models.Board;
-import com.battleship.models.Menus;
-import com.battleship.models.Ship;
+import com.battleship.model.AI;
+import com.battleship.model.Board;
+import com.battleship.model.Menus;
+import com.battleship.model.Ship;
 
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -49,6 +49,8 @@ public final class MainStageController {
     private final String imagePath = "file:src/main/java/com/battleship/images/";
     // Label to display the username
     private Label usernameLabel = new Label("Username: " + username);
+
+    public Label statusLabel = new Label("Username: ");
 
 
 
@@ -231,8 +233,18 @@ public final class MainStageController {
         /*
          * RIGHT VBOX
          */
+        //messagebox
+        // Set up the username display box
+        statusLabel.setStyle("-fx-background-color: #3B6491; -fx-text-fill: white; -fx-font-size: 25px; -fx-padding: 10px;");
+        statusLabel.setAlignment(Pos.CENTER);
 
+        // Create the right layout box with the battlefield grid and other components
+        VBox rightBox = new VBox();
+        rightBox.setAlignment(Pos.CENTER);
+        rightBox.setSpacing(30);
+        rightBox.getChildren().addAll(statusLabel);
 
+        
         /*
          * END OF MIDDLE VBOX
          */
@@ -248,7 +260,7 @@ public final class MainStageController {
         mainContainer.setSpacing(40);
 
         // Add the main components to the main container
-        mainContainer.getChildren().addAll(chatContainer, centerBox, shipContainer);
+        mainContainer.getChildren().addAll(chatContainer, centerBox, shipContainer,rightBox);
         root.setCenter(mainContainer);
         /*
          * END OF MAIN CONTAINER
@@ -269,7 +281,7 @@ public final class MainStageController {
         // cell.setStyle("-fx-border-color: black; -fx-border-width: 1; -fx-background-color: " + backgroundColor + ";");
 
         GameStageController game = new GameStageController(); 
-        game.gameExecution(playerBoard, aiBoard, ai);
+        game.gameExecution(playerBoard, aiBoard, ai, statusLabel);
 
 
     }
@@ -355,7 +367,7 @@ private void handleDragDroppedOnCell(DragEvent event, VBox cell, Board playerBoa
         if (!currentShip.isPlaced() && playerBoard.placeShip(currentShip, finalRow, finalCol, horizontal)) {
             placeShipImage(currentShip, finalRow, finalCol, horizontal, playerBoard);
             reapplyHoverEffects(finalRow, finalCol, horizontal, currentShip);
-            currentShip.setPlaced(true);  // Mark the ship as placed
+            currentShip.isPlaced = true;  // Mark the ship as placed
             updateShipContainerVisibility();  // Refresh the ship container
             success = true;
         }
@@ -537,6 +549,10 @@ private void applyHoverEffect(Button button, String color) {
     public void setUsername(String outsideUsername) {
         usernameLabel.setText("Username: " + outsideUsername);
         this.username = outsideUsername;
+    }
+
+    public  void setstatusLabel(String outsideText) {
+        statusLabel.setText( outsideText);
     }
 
         // Modify the getNodeByRowColumnIndex method to ensure it handles possible nulls correctly

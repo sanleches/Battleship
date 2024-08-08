@@ -1,4 +1,4 @@
-package com.battleship.models;
+package com.battleship.model;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -9,7 +9,7 @@ public class Ship {
     private char symbol;
     private Set<Coordinate> coordinates;
     private Set<Coordinate> hits;
-    private boolean isPlaced = false; // Default is not placed
+    public boolean isPlaced = false; // Default is not placed
 
 
     public Ship(String name, int size, char symbol) {
@@ -36,12 +36,10 @@ public class Ship {
         return isPlaced;
     }
 
-    public void setPlaced(boolean placed) {
-        isPlaced = placed;
-    }
 
     public void addCoordinate(int row, int col) {
         coordinates.add(new Coordinate(row, col));
+        isPlaced = true;
     }
 
     public boolean isHit(int row, int col) {

@@ -1,4 +1,4 @@
-package com.battleship.models;
+package com.battleship.model;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -100,11 +100,13 @@ public class Board {
     }
 
     public boolean areAllShipsPlaced() {
-        for (Ship ship : ships) {
-            if (!ship.isPlaced()) {
-                return false;
+        boolean flag = true;
+
+        for (Ship ship : ships ) {
+            if (!ship.isPlaced() || ships.isEmpty()) {
+                flag = false;
             }
         }
-        return true;
+        return flag;
     }
 }

@@ -2,6 +2,8 @@ package com.battleship;
 
 import java.io.IOException;
 
+import com.battleship.view.MainStageController;
+
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Rectangle2D;

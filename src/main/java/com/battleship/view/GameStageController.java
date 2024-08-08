@@ -1,8 +1,9 @@
-package com.battleship;
+package com.battleship.view;
 
-import com.battleship.mainStageModules.LogBox;
-import com.battleship.models.AI;
-import com.battleship.models.Board;
+import com.battleship.model.AI;
+import com.battleship.model.Board;
+
+import javafx.scene.control.Label;
 
 
 
@@ -10,18 +11,15 @@ public class GameStageController {
     public boolean turnFlag = true;
     public boolean usersetupcompleted = false;
     public boolean gamecompletion = false;
-    private LogBox logBox;
 
 
-    public GameStageController() {
-        this.logBox = new LogBox(); // Initialize LogBox
-    }
 
-    public void gameExecution(Board userboard, Board aiboard, AI ai){
+
+    public void gameExecution(Board userboard, Board aiboard, AI ai, Label statusLabel){
 
         while (usersetupcompleted == false){
             usersetupcompleted = userboard.areAllShipsPlaced();
-            logBox.updateMessage("Please place all ships for the game to start.");
+            statusLabel.setText("Please place all ships for the game to start.");
         }
 
         do { 
@@ -29,15 +27,19 @@ public class GameStageController {
                 ai.attack(userboard);
                 turnFlag = true;
             }
+            else{
+                
+            }
 
             if (userboard.allShipsSunk() == true || aiboard.allShipsSunk() == true ){
                 if(userboard.allShipsSunk()){
-                    logBox.updateMessage(" Game completed. Winner AI");
+                    statusLabel.setText(" Game completed. Winner AI");
                 }
                 else if (aiboard.allShipsSunk()) {
-                    logBox.updateMessage(" Game completed. You WON!");
+                    statusLabel.setText(" Game completed. You WON!");
 
                 }
+                gamecompletion = true;
             }
 
         } while (gamecompletion == false);

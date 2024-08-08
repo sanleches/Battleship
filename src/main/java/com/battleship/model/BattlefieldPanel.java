@@ -1,4 +1,4 @@
-package com.battleship.models;
+package com.battleship.model;
 
 public class BattlefieldPanel {
 

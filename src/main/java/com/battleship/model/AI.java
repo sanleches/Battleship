@@ -1,4 +1,4 @@
-package com.battleship.models;
+package com.battleship.model;
 
 import java.util.Random;
 

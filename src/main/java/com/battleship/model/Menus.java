@@ -1,4 +1,4 @@
-package com.battleship.models;
+package com.battleship.model;
 
 import javafx.application.Platform;
 import javafx.scene.control.CheckMenuItem;
